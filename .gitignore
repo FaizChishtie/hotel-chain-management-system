@@ -1,0 +1,7 @@
+node_modules
+/.vscode
+/static/vendor
+*.pyc
+*.db
+*.map
+.DS_Store
