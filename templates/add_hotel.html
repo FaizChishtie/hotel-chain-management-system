@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Add Hotel{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <h1>Add Hotel Form</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.n_rooms.label }}<br>
+            {{ form.n_rooms(size=32) }}<br>
+            {% for error in form.n_rooms.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.address.label }}<br>
+            {{ form.address(size=64) }}<br>
+            {% for error in form.address.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.phone_numbers.label }}<br>
+            {{ form.phone_numbers(size=32) }}<br>
+            {% for error in form.phone_numbers.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.chain.label }}<br>
+            {{ form.chain(size=32) }}<br>
+            {% for error in form.chain.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+          {{ form.n_stars.label }}<br>
+          {{ form.n_stars(size=32) }}<br>
+          {% for error in form.n_stars.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+      </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

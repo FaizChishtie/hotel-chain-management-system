@@ -1,7 +1,10 @@
 node_modules
 /.vscode
+/old
+/.idea
 /static/vendor
 *.pyc
 *.db
 *.map
 .DS_Store
+/src/db/secret.py

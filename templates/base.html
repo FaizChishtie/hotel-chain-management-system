@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>{% block title %}Team Management System{% endblock %}</title>
+  <title>{% block title %}Hotel Chain Management System{% endblock %}</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="../static/vendor/css/bootstrap.min.css">
@@ -25,33 +25,19 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      {% if current_user.is_authenticated %}
-      <div class="sidebar-heading">Team Management System</div>
-      <div class="sidebar-heading">Role - {{'Instructor' if current_user.instructor else 'Student'}}</div>
-      {% else %}
-      <div class="sidebar-heading">Team Management System</div>
-      {% endif %}
+      <div class="sidebar-heading">Hotel Chain Management System</div>
       <div class="list-group list-group-flush">
-        <!-- /#admin-sidebar -->
-        {% if current_user.is_authenticated %}
-          {%if current_user.instructor %}
-
-        <a href="{{ url_for('set_up_parameters') }}" class="list-group-item list-group-item-action bg-light">Set Up Parameters</a>
-        <a href="{{ url_for('visualize_student_teams') }}" class="list-group-item list-group-item-action bg-light">Visualize Student Teams</a>
-
-          {%endif%}
-
-        <!-- /#student-sidebar -->
-
-          {%if not current_user.instructor %}
-
-        <a href="{{ url_for('view_teams') }}" class="list-group-item list-group-item-action bg-light">View Teams</a>
-        <a href="{{ url_for('create_teams') }}" class="list-group-item list-group-item-action bg-light">Create A Team</a>
-        <a href="{{ url_for('join_teams') }}" class="list-group-item list-group-item-action bg-light">Join A Team</a>
-        <a href="{{ url_for('accept_new_students') }}" class="list-group-item list-group-item-action bg-light">Accept New Students</a>
-
-         {%endif%}
-        {%endif%}
+        <a href="{{ url_for('add_hotel') }}" class="list-group-item list-group-item-action bg-light">Add Hotel</a>
+        <a href="{{ url_for('add_hotelchain') }}" class="list-group-item list-group-item-action bg-light">Add Hotel Chain</a>
+        <a href="{{ url_for('add_record') }}" class="list-group-item list-group-item-action bg-light">Add Record</a>
+        <a href="{{ url_for('add_employee') }}" class="list-group-item list-group-item-action bg-light">Add Employee</a>
+        <a href="{{ url_for('add_customer') }}" class="list-group-item list-group-item-action bg-light">Add Customer</a>
+        <a href="{{ url_for('search') }}" class="list-group-item list-group-item-action bg-light">Search</a>
+        <a href="{{ url_for('view_all_customers') }}" class="list-group-item list-group-item-action bg-light">View All Customers</a>
+        <a href="{{ url_for('view_all_employees') }}" class="list-group-item list-group-item-action bg-light">View All Employees</a>
+        <a href="{{ url_for('view_hotels') }}" class="list-group-item list-group-item-action bg-light">View Hotels</a>
+        <a href="{{ url_for('view_records') }}" class="list-group-item list-group-item-action bg-light">View Records</a>
+        <a href="{{ url_for('view_room') }}" class="list-group-item list-group-item-action bg-light">View Rooms</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -72,25 +58,15 @@
               <a class="nav-link" href="{{ url_for('index') }}"">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://github.com/FaizChishtie/team-management-system">GitHub</a>
+              <a class="nav-link" href="https://github.com/FaizChishtie/hotel-chain-management-system">GitHub</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Profile
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                {% if current_user.is_authenticated %}
-                  {%if not current_user.instructor %}
-                    <a class="dropdown-item" href="{{ url_for('student_profile') }}">{{ current_user.username }}</a>
-                  {%else%}
-                    <a class="dropdown-item" href="{{ url_for('index') }}">{{ current_user.username }}</a>
-                  {%endif%}
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a>
-                {% else %}
                   <a class="dropdown-item" href="{{ url_for('login') }}">Log In</a>
-                  <a class="dropdown-item" href="{{ url_for('signup') }}">Sign Up</a>
-                {% endif %}
+                  <a class="dropdown-item" href="{{ url_for('logout') }}">Sign Out</a>
               </div>
             </li>
           </ul>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Add Hotel Chain{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>Add Hotel Chain Form</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.address_of_hq.label }}<br>
+            {{ form.address_of_hq(size=64) }}<br>
+            {% for error in form.address_of_hq.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.phone_numbers.label }}<br>
+            {{ form.phone_numbers(size=32) }}<br>
+            {% for error in form.phone_numbers.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

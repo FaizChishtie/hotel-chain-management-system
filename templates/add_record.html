@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Add Record{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <h1>Add A Record</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.room_type.label }}<br>
+            {{ form.room_type(size=32) }}<br>
+            {% for error in form.room_type.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.n_occupants.label }}<br>
+            {{ form.n_occupants(size=64) }}<br>
+            {% for error in form.n_occupants.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.customer.label }}<br>
+            {{ form.customer(size=32) }}<br>
+            {% for error in form.customer.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+          {{ form.hotel_name.label }}<br>
+          {{ form.hotel_name(size=32) }}<br>
+          {% for error in form.hotel_name.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+      {{ form.start_date.label }}
+        {{ form.start_date }}
+      </p>
+      <p>
+     {{ form.end_date.label }}
+        {{ form.end_date }}
+      </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
