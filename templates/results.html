@@ -10,13 +10,12 @@
     <br>
     <table class="table">
         <tr>
-        {% for item in header %}
             <tr>
-              {% for d in item %}
-              <th>{{d}}</th>
+              {% for item in header %}
+              <th>{{item}}</th>
               {% endfor %}
             </tr>
-          {% endfor %}
+
         </tr>
       {% for item in data %}
         <tr>

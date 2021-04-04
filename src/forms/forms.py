@@ -48,9 +48,9 @@ class RecordForm(FlaskForm):
     submit = SubmitField('Create Record')
 
 class SearchForm(FlaskForm):
-    rid = IntegerField('Room ID')
+    rid = StringField('Room ID')
     room_view = StringField('Room View')
-    n_occupants = IntegerField('Number of Occupants')
+    n_occupants = StringField('Number of Occupants')
     price = StringField('Price')
     amenities = StringField('Amenities')
     submit = SubmitField('Search')

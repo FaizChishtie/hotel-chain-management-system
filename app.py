@@ -186,6 +186,11 @@ def search():
         global DATA
         global HEADER
 
+        DATA = [['temp']]
+        HEADER = ['hi']
+
+        return redirect(url_for('results'))
+
         constraints = []
 
         if form.rid.data:
@@ -227,7 +232,7 @@ def results():
     global HEADER
     if not logged_in():
         return redirect(url_for('login'))
-    return render_template('results.html', data=DATA, headers=HEADER)
+    return render_template('results.html', data=DATA, header=HEADER)
 
 @app.route('/view_all_customers')
 def view_all_customers():

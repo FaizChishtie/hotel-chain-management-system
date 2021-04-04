@@ -5,13 +5,13 @@ WHICH_CONFIG = 'CONFIG'
 
 USERNAME = re.search(
     '^USERNAME\s*=\s*"([^"]+)"',
-    open('TEMP_CONFIG').read(),
+    open(WHICH_CONFIG).read(),
     re.M
     ).group(1)
 
 PASSWORD = re.search(
     '^PASSWORD\s*=\s*"([^"]+)"',
-    open('TEMP_CONFIG').read(),
+    open(WHICH_CONFIG).read(),
     re.M
     ).group(1)
 
