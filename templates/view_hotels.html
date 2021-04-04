@@ -11,14 +11,19 @@
     <br>
     <table class="table">
         <tr>
-          <th>Employee Name</th>
+          <th>Hotel ID</th>
+          <th>Brand Name</th>
+          <th>Star Category</th>
+          <th>Phone Numbers</th>
+          <th>Email</th>
+          <th>Address</th>
         </tr>
       {% for item in data %}
           <tr>
-            <td>{{item[0]}}</td>
+            {% for d in item %}
+            <td>{{d}}</td>
+            {% endfor %}
           </tr>
-      {% endfor %}
-    </table>
+        {% endfor %}
+      </table>
   {% endblock %}
-  </body>
-</html>

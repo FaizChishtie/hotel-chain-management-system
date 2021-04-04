@@ -8,3 +8,4 @@ node_modules
 *.map
 .DS_Store
 /src/db/secret.py
+TEMP_CONFIG

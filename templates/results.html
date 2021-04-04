@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{%block content%}
+    <h1>Results</h1>
+    <br>
+    <br>
+    <table class="table">
+        <tr>
+        {% for item in header %}
+            <tr>
+              {% for d in item %}
+              <th>{{d}}</th>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tr>
+      {% for item in data %}
+        <tr>
+          {% for d in item %}
+          <td>{{d}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endblock %}
+  </body>
+</html>

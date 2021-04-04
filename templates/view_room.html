@@ -10,11 +10,23 @@
     <br>
     <table class="table">
         <tr>
-          <th>Rooms</th>
+          <th>Room ID</th>
+          <th>Hotel ID</th>
+          <th>Price</th>
+          <th>Capacity</th>
+          <th>Amenities</th>
+          <th>View</th>
+          <th>Is Extendable</th>
         </tr>
       {% for item in data %}
           <tr>
             <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+            <td>{{item[5]}}</td>
+            <td>{{item[6]}}</td>
+            <td>{{item[7]}}</td>
           </tr>
       {% endfor %}
     </table>

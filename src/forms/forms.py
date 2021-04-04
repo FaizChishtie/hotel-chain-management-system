@@ -48,10 +48,9 @@ class RecordForm(FlaskForm):
     submit = SubmitField('Create Record')
 
 class SearchForm(FlaskForm):
-    room_type = StringField('Room Type')
+    rid = IntegerField('Room ID')
+    room_view = StringField('Room View')
     n_occupants = IntegerField('Number of Occupants')
-    hotel_chain = StringField('Hotel Chain')
-    start_date = DateField('Start Date', format='%m/%d/%Y')
-    end_date = DateField('End Date', format='%m/%d/%Y')
-    n_stars = IntegerField('Star Number', validators=[NumberRange(1,5)])
+    price = StringField('Price')
+    amenities = StringField('Amenities')
     submit = SubmitField('Search')

@@ -47,20 +47,20 @@
 #     def __repr__(self):
 #         return "<Team Name: {}>".format(self.team_name)
 
-# def as_cursor(query):
-#     connection = db.engine.raw_connection()
-#     cursor = connection.cursor()
-#     cursor.execute(query)
-#     return cursor.fetchall()
+def as_cursor(query):
+    connection = db.engine.raw_connection()
+    cursor = connection.cursor()
+    cursor.execute(query)
+    return cursor.fetchall()
 
-# def db_get_teams_for_user(username):
-#     return as_cursor('SELECT team_name FROM teams_list WHERE username is \'{}\''.format(username))
+def db_get_teams_for_user(username):
+    return as_cursor('SELECT team_name FROM teams_list WHERE username is \'{}\''.format(username))
 
-# def db_get_open_teams_for_user(username):
-#     return as_cursor('SELECT team_name FROM teams_list WHERE username is NOT\'{}\''.format(username))
+def db_get_open_teams_for_user(username):
+    return as_cursor('SELECT team_name FROM teams_list WHERE username is NOT\'{}\''.format(username))
 
-# def db_get_user_requests(username):
-#     return as_cursor('SELECT team_name FROM request_for_team WHERE username is \'{}\''.format(username))
+def db_get_user_requests(username):
+    return as_cursor('SELECT team_name FROM request_for_team WHERE username is \'{}\''.format(username))
 
 # def db_pack_users_in_team(team_name):
 #     _dict = {
@@ -114,17 +114,3 @@
 
 # def user_exists(username):
 #     return not (as_cursor('SELECT COUNT(student.username) FROM student WHERE username is \'{}\''.format(username))[0][0] == 0)
-
-
-# ####
-
-# # def db_setup(app, basedir):
-# #     app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
-# #     # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or \
-# #     #         'sqlite:///' + os.path.join(basedir, 'app.db')
-# #     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://fchis052:{password()}@web0.eecs.uottawa.ca:15432/group_a01_g44'
-# #     db = SQLAlchemy(app)
-# #     migrate = Migrate(app, db)
-# #     return db
-
-#     #

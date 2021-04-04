@@ -9,10 +9,9 @@ from flask_migrate import Migrate
 
 
 # from src.db.database import User
-from __init__ import CURRENT_USER
+from __init__ import CURRENT_USER, USERNAME, PASSWORD, DATA, HEADER
 from src.forms.forms import LoginForm, RecordForm, CustomerProfileForm, EmployeeProfileForm, AddHotelForm, AddHotelChainForm, RecordForm, SearchForm
 from src.util.util import profile_is_set
-from src.db.secret import password
 from src.db.User import User
 
 ######## HARDCODED ########
@@ -26,11 +25,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
-# # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or \
-# #         'sqlite:///' + os.path.join(basedir, 'app.db')
-# app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://fchis052:{password()}@web0.eecs.uottawa.ca:15432/group_a01_g44'
-# db = SQLAlchemy(app)
-# migrate = Migrate(app, db)
+# app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{USERNAME}:{PASSWORD}@web0.eecs.uottawa.ca:15432/group_a01_g44'
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -186,9 +183,51 @@ def search():
     form = SearchForm()
 
     if form.validate_on_submit():
-        print('TODO')
+        global DATA
+        global HEADER
+
+        constraints = []
+
+        if form.rid.data:
+            # (rid,hid,csin,price,roomcapacity,amenities,rview,isextendable)
+            constraints.append(f'rid = {form.rid.data}')
+        if form.room_view.data:
+            # (rid,hid,csin,price,roomcapacity,amenities,rview,isextendable)
+            constraints.append(f'rview = {form.room_view.data}')
+        if form.amenities.data:
+            constraints.append(f'amenities = {form.amenities.data}')
+        if form.price.data:
+            constraints.append(f'price = {form.price.data}')
+        if form.n_occupants.data:
+            constraints.append(f'roomcapacity = {form.n_occupants.data}')
+
+        if len(constraints) != 0:
+            constraint = ""
+            for i in range(len(constraints)):
+                if i == (len(constraints) - 1):
+                    constraint += constraints[i]
+                else:
+                    constraint += constraints[i] + " AND "
+            print(constraint)
+            DATA = db_get_all_items_with_constraints('room', constraint)
+
+
+        else :
+            DATA = db_get_all_items('room')
+        HEADER = ['Room ID', 'Hotel ID', 'Price', 'Capacity', 'Amenities', 'View', 'Is Extendable']
+
+        return redirect(url_for('results'))
     
     return render_template('search.html', form=form)
+
+@app.route('/results')
+def results():
+    global CURRENT_USER
+    global DATA
+    global HEADER
+    if not logged_in():
+        return redirect(url_for('login'))
+    return render_template('results.html', data=DATA, headers=HEADER)
 
 @app.route('/view_all_customers')
 def view_all_customers():
@@ -198,7 +237,7 @@ def view_all_customers():
     elif not CURRENT_USER.isAdmin():
         flash(f'Unable to access page while logged in as {CURRENT_USER.type}')
         return redirect(url_for('index'))
-    return render_template('view_all_customers.html', data=db_get_all_teams())
+    return render_template('view_all_customers.html', data=db_get_all_items('customer'))
 
 @app.route('/view_all_employees')
 def view_all_employees():
@@ -208,7 +247,7 @@ def view_all_employees():
     elif not CURRENT_USER.isAdmin():
         flash(f'Unable to access page while logged in as {CURRENT_USER.type}')
         return redirect(url_for('index'))
-    return render_template('view_all_employees.html', data=db_get_all_teams())
+    return render_template('view_all_employees.html', data=db_get_all_items('employee'))
 
 @app.route('/view_hotels')
 def view_hotels():
@@ -218,7 +257,7 @@ def view_hotels():
     elif not CURRENT_USER.isAdmin():
         flash(f'Unable to access page while logged in as {CURRENT_USER.type}')
         return redirect(url_for('index'))
-    return render_template('view_hotels.html', data=db_get_all_teams())
+    return render_template('view_hotels.html', data=db_get_all_items('hotel'))
 
 @app.route('/view_records')
 def view_records():
@@ -228,7 +267,7 @@ def view_records():
     elif not CURRENT_USER.isAdmin():
         flash(f'Unable to access page while logged in as {CURRENT_USER.type}')
         return redirect(url_for('index'))
-    return render_template('view_records.html', data=db_get_all_teams())
+    return render_template('view_records.html', data=db_get_all_items('record'))
 
 @app.route('/view_room')
 def view_room():
@@ -238,36 +277,22 @@ def view_room():
     elif not CURRENT_USER.isAdmin():
         flash(f'Unable to access page while logged in as {CURRENT_USER.type}')
         return redirect(url_for('index'))
-    return render_template('view_room.html', data=db_get_all_teams())
+    return render_template('view_room.html', data=db_get_all_items('room'))
 
 
-def db_get_all_teams():
-    return [['Temporary']]
+def as_cursor(query):
+    connection = db.engine.raw_connection()
+    cursor = connection.cursor()
+    cursor.execute(query)
+    return cursor.fetchall()
+
+def db_get_all_items(table):
+    return as_cursor(f'SELECT * FROM {table}')
+
+def db_get_all_items_with_constraints(table, constraints):
+    return as_cursor(f'SELECT * FROM {table} WHERE {constraints}')
+
 ######## ADMIN ########
-
-
-# @app.route('/signup', methods=['GET', 'POST'])
-# def signup():
-#     form = RegisterForm()
-
-#     if form.validate_on_submit():
-#         if not form.confirm.data == form.password.data:
-#             return redirect(url_for('signup'))
-#         hashed_password = generate_password_hash(form.password.data, method='sha256')
-#         try: 
-#             # SOME DB!!!
-#             # new_user = User(username=form.username.data, email=form.email.data, password=hashed_password, instructor=form.instructor.data )
-#             # db.session.add(new_user)
-#             # db.session.commit()
-
-#             flash('New user \'{}\' has been created!'.format(form.username.data))
-#             flash('Please sign in {}!'.format(form.username.data))
-#             return redirect(url_for('login'))
-#         except:
-#             flash('Something went wrong! The email address you entered may already be in use!'.format(form.username.data))
-        
-
-#     return render_template('signup.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -280,5 +305,5 @@ def logout():
 ######## LOGIN/SIGNUP ########
 
 if __name__ == "__main__":
-    # db.create_all()
+    db.create_all()
     app.run(debug=True)

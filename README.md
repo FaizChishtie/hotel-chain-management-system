@@ -5,11 +5,25 @@ Hotel chain management system for CSI2132
 
 Faizaan Chishtie 300008947
 
-Omar Hayat 0300096867
+Omar Hayat 300096867
 
-Tony Pei 
+Tony Pei 8815641
 
 ## Startup
+
+### First Step:
+
+In the `CONFIG` file:
+
+PLEASE replace:
+
+```
+USERNAME="myUsername"
+PASSWORD="myPassword"
+```
+
+With your uOttawa username and password! This will create the PostgreSQL connection.
+
 
 ``` 
 python3 app.py 
@@ -61,21 +75,3 @@ pip3 install flask-login
 pip3 install flask-table
 pip install psycopg2-binary
 ```
-
-
-## Todo
-
-* Register User (Employee, Customer, Admin)
-* Admin log in
-    * Create hotel chain
-* Employee log in
-    * Manage bookings
-    * Personal info
-* Customer log in
-    * Booking
-    * Personal info
-* ~~Create team~~
-* ~~Join team~~
-* ~~Student Profiles~~
-* ~~Accept new students~~
-* ~~Student log out~~
