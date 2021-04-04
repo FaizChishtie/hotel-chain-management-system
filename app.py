@@ -25,7 +25,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
-# app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{USERNAME}:{PASSWORD}@web0.eecs.uottawa.ca:15432/group_a01_g44'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{USERNAME}:{PASSWORD}@web0.eecs.uottawa.ca:15432/group_a01_g44'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -186,25 +186,20 @@ def search():
         global DATA
         global HEADER
 
-        DATA = [['temp']]
-        HEADER = ['hi']
-
-        return redirect(url_for('results'))
-
         constraints = []
 
         if form.rid.data:
             # (rid,hid,csin,price,roomcapacity,amenities,rview,isextendable)
-            constraints.append(f'rid = {form.rid.data}')
+            constraints.append(f'(rid = {form.rid.data})')
         if form.room_view.data:
             # (rid,hid,csin,price,roomcapacity,amenities,rview,isextendable)
-            constraints.append(f'rview = {form.room_view.data}')
+            constraints.append(f"(rview LIKE '%{form.room_view.data}%')")
         if form.amenities.data:
-            constraints.append(f'amenities = {form.amenities.data}')
+            constraints.append(f"(amenities LIKE '%{form.amenities.data}%')")
         if form.price.data:
-            constraints.append(f'price = {form.price.data}')
+            constraints.append(f"(price LIKE '%{form.price.data}%')")
         if form.n_occupants.data:
-            constraints.append(f'roomcapacity = {form.n_occupants.data}')
+            constraints.append(f'(roomcapacity = {form.n_occupants.data})')
 
         if len(constraints) != 0:
             constraint = ""
@@ -219,7 +214,7 @@ def search():
 
         else :
             DATA = db_get_all_items('room')
-        HEADER = ['Room ID', 'Hotel ID', 'Price', 'Capacity', 'Amenities', 'View', 'Is Extendable']
+        HEADER = ['Room ID', 'Hotel ID', 'Customer SIN', 'Capacity', 'Price', 'Amenities', 'View', 'Is Extendable']
 
         return redirect(url_for('results'))
     
